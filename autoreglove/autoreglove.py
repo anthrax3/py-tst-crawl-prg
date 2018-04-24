@@ -1,18 +1,11 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.keys import Keys
 import time
 import pyautogui
 #import pyperclip
 
 from ex_audio import speech_to_text_wit_ai, save_link_to_wav
-
-"""
-namefile_cfg='config.ini'
-config = configparser.ConfigParser()
-config.read(namefile_cfg)
-username = config['settings']['username']
-parol = config['settings']['password']
-"""
 
 # настройка данных
 # первая страница
@@ -26,9 +19,9 @@ jahr="1981"
 # вторая страница
 location="Berlin, Germany"
 # третья страница
-pseudonym = "windows333"
-email = "ii@yandex.de"
-passw = "Qqwe123!!"
+pseudonym = "dows2wsss1"
+email = "ii@yandexw.de"
+passw = "Qqwe123!!!!"
 kakuznalionas= "Zeitschrift/Zeitung/Magazin"
 
 # END настройка данных
@@ -38,12 +31,17 @@ user_agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101"
 
 # настройка  Chrome
 options = webdriver.ChromeOptions()
+options.add_argument("test-type")
 #options.add_argument('headless')
 # set the window size
+#options.add_argument('ignore-certificate-errors')
 options.add_argument('window-size=1200x600')
 
-driver = webdriver.Chrome(chrome_options=options)
+driver = webdriver.Firefox()
+#driver = webdriver.Chrome(chrome_options=options)
 driver.get('https://www.lovescout24.de/')
+
+driver.implicitly_wait(3)
 
 # первая страница регистрации
 elem_username = driver.find_elements_by_css_selector('.regform__kvk-field-group:nth-child(1) .regform__kvk-field-input')
@@ -77,11 +75,10 @@ time.sleep(2)
 elem_username = driver.find_elements_by_css_selector('.regform__location-field__input--normal')
 print(elem_username)
 elem_username[0].send_keys(location)
-time.sleep(1)
-
-pyautogui.press("down")
-pyautogui.press("enter")
-time.sleep(1)
+time.sleep(2)
+elem_username[0].send_keys(Keys.DOWN)
+elem_username[0].send_keys(Keys.RETURN)
+time.sleep(2)
 elem_username = driver.find_elements_by_css_selector('button[class*="regform-next-button"]')
 print(elem_username)
 elem_username[0].click()
@@ -112,8 +109,10 @@ print(elem_username)
 try:
     elem_username[0].click()
     time.sleep(1)
-    pyautogui.press("down")
-    pyautogui.press("enter")
+    elem_username[0].send_keys(Keys.DOWN)
+    elem_username[0].send_keys(Keys.RETURN)
+    #pyautogui.press("down")
+    #pyautogui.press("enter")
 except IndexError:
     pass
 
