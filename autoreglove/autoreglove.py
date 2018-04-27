@@ -3,9 +3,21 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 import time
 import pyautogui
+import configparser
 #import pyperclip
 
 from ex_audio import speech_to_text_wit_ai, save_link_to_wav
+
+# получение настроек для прокси
+namefile_cfg='config.ini'
+config = configparser.ConfigParser()
+config.read(namefile_cfg)
+server_proxy = config['proxy']['server']
+port_proxy = int(config['proxy']['port'])
+
+print(server_proxy)
+print(port_proxy)
+# END получение настроек для прокси
 
 # настройка данных
 # первая страница
@@ -19,16 +31,13 @@ jahr="1981"
 # вторая страница
 location="Berlin, Germany"
 # третья страница
-pseudonym = "dows2wsss1"
-email = "ii@yandexw.de"
+pseudonym = "dows2wsss12"
+email = "ii@yandexwq.de"
 passw = "Qqwe123!!!!"
 kakuznalionas= "Zeitschrift/Zeitung/Magazin"
-
 # END настройка данных
 
-
 user_agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101"
-
 # настройка  Chrome
 options = webdriver.ChromeOptions()
 options.add_argument("test-type")
@@ -37,10 +46,16 @@ options.add_argument("test-type")
 #options.add_argument('ignore-certificate-errors')
 options.add_argument('window-size=1200x600')
 
-driver = webdriver.Firefox()
+# настройка firefox
+profile = webdriver.FirefoxProfile()
+profile.set_preference("network.proxy.type", 1)
+profile.set_preference("network.proxy.http", server_proxy)
+profile.set_preference("network.proxy.http_port", port_proxy)
+profile.update_preferences()
+driver = webdriver.Firefox(firefox_profile=profile)
+# END настройка firefox
 #driver = webdriver.Chrome(chrome_options=options)
 driver.get('https://www.lovescout24.de/')
-
 driver.implicitly_wait(3)
 
 # первая страница регистрации
@@ -111,8 +126,6 @@ try:
     time.sleep(1)
     elem_username[0].send_keys(Keys.DOWN)
     elem_username[0].send_keys(Keys.RETURN)
-    #pyautogui.press("down")
-    #pyautogui.press("enter")
 except IndexError:
     pass
 
